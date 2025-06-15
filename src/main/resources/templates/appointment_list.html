@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Appointments</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('/images/doctor-bg.png') no-repeat center center fixed;
+            background-size: cover;
+            color:black;
+        }
+
+        table {
+            margin: 20px auto;
+            width: 50%;
+            border-collapse: collapse;
+            background-color:rgb(240, 235, 235);
+            border: 2px solid #00e6e6;
+            transform: translateX(-100px);
+        }
+        th, td {
+            border: 2px solid #00e6e6;
+            padding: 10px;
+        }
+        th {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .form-container {
+            margin: 20px auto;
+            padding: 20px;
+            width: 60%;
+           
+        }
+        input, select {
+            padding: 10px;
+            margin: 5px;
+            width: 83%;
+            transform: translateX(-42px);
+             border: 2px solid #00e6e6;
+             
+        }
+
+        
+             input, button {
+            padding: 10px;
+            margin: 5px;
+            width: 30%;
+             transform: translateX(150px);
+        }
+        
+        .btn {
+            padding: 8px 12px;
+            margin: 0 4px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .main-title {
+    color: #00e6e6;
+    text-shadow: 2px 2px 5px #000;
+    font-size: 36px;
+    margin-top: 20px;
+    transform: translateX(-85px)
+}
+
+input[type="text"] {
+    border: 2px solid #00e6e6; /* Replace this with any color you want */
+    border-radius: 5px;
+    background-color:rgb(240, 235, 235);
+     width: 80%;
+     transform: translateX(-45px);
+    outline: none;
+}
+        .edit { background-color: orange; color: white; }
+        .delete { background-color: red; color: white; }
+        .submit { background-color: #00e6e6; color: white; }
+    </style>
+</head>
+<body>
+    <center>
+<h2 class="main-title">Manage Appointments</h2>
+</center>
+
+<!-- Appointment Form -->
+<div class="form-container">
+    <form th:action="@{/appointments/add}" th:object="${appointment}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <input type="text" th:field="*{date}" placeholder="Date (YYYY-MM-DD)" required /><br/>
+        <input type="text" th:field="*{time}" placeholder="Time (e.g. 10:30 AM)" required /><br/>
+
+        <!-- Doctor Dropdown -->
+        <select th:field="*{doctor}" required>
+            <option value="">-- Select Doctor --</option>
+            <option th:each="doc : ${doctors}" th:value="${doc.id}" th:text="${doc.name}">Doctor</option>
+        </select><br/>
+
+        <!-- Patient Dropdown -->
+        <select th:field="*{patient}" required>
+            <option value="">-- Select Patient --</option>
+            <option th:each="pat : ${patients}" th:value="${pat.id}" th:text="${pat.name}">Patient</option>
+        </select><br/>
+
+        <button class="btn submit" type="submit" th:text="${appointment.id} != null ? 'Update Appointment' : 'Book Appointment'"></button>
+    </form>
+</div>
+
+<!-- Appointment Table -->
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Doctor</th>
+        <th>Patient</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="app : ${appointments}">
+        <td th:text="${app.id}">1</td>
+        <td th:text="${app.date}">2025-06-15</td>
+        <td th:text="${app.time}">10:00 AM</td>
+        <td th:text="${app.doctor.name}">Dr. A</td>
+        <td th:text="${app.patient.name}">John</td>
+        <td>
+            <a th:href="@{/appointments/edit/{id}(id=${app.id})}" class="btn edit">Edit</a>
+            <a th:href="@{/appointments/delete/{id}(id=${app.id})}" class="btn delete" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

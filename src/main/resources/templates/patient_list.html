@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Patients</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('/images/doctor-bg.png') no-repeat center center fixed;
+            background-size: cover;
+            color:black;
+        }
+         table {
+            margin: 20px auto;
+            width: 50%;
+            border-collapse: collapse;
+            background-color:rgb(240, 235, 235);
+            border: 2px solid #00e6e6;
+            transform: translateX(-100px);
+        }
+        th, td {
+            border: 1px solid #00e6e6;
+            padding: 10px;
+        }
+        th {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .form-container {
+            margin: 20px auto;
+            padding: 20px;
+            width: 60%;
+            
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            width: 30%;
+            transform: translateX(150px);
+        }
+        .btn {
+            padding: 8px 12px;
+            margin: 0 4px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .main-title {
+    color: #00e6e6;
+    text-shadow: 2px 2px 5px #000;
+    font-size: 36px;
+    margin-top: 20px;
+    transform: translateX(-85px);
+        }
+
+        input[type="text"] {
+    border: 2px solid #00e6e6; /* Replace this with any color you want */
+    border-radius: 5px;
+    background-color:rgb(240, 235, 235);
+     width: 80%;
+     transform: translateX(-45px);
+    outline: none;
+}
+
+        .edit { background-color: orange; color: white; }
+        .delete { background-color: red; color: white; }
+        .submit { background-color: #00e6e6; color: white; }
+    </style>
+</head>
+<body>
+    <center>
+<h2 class="main-title">Manage Patients</h2>
+</center>
+<div class="form-container">
+    <form th:action="@{/patients/add}" th:object="${patient}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <input type="text" th:field="*{name}" placeholder="Name" required /><br/>
+        <input type="text" th:field="*{age}" placeholder="Age" required /><br/>
+        <input type="text" th:field="*{phone}" placeholder="Phone" required /><br/>
+        <button class="btn submit" type="submit" th:text="${patient.id} != null ? 'Update Patient' : 'Add Patient'"></button>
+    </form>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Phone</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pat : ${patients}">
+        <td th:text="${pat.id}">1</td>
+        <td th:text="${pat.name}">Name</td>
+        <td th:text="${pat.age}">Age</td>
+        <td th:text="${pat.phone}">Phone</td>
+        <td>
+            <a th:href="@{/patients/edit/{id}(id=${pat.id})}" class="btn edit">Edit</a>
+            <a th:href="@{/patients/delete/{id}(id=${pat.id})}" class="btn delete" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -25,7 +25,6 @@ public class AppointmentController {
     @Autowired
     private PatientRepository patientRepository;
 
-    // ✅ View all appointments
     @GetMapping
     public String viewAppointments(Model model) {
         model.addAttribute("appointments", appointmentRepository.findAll());
@@ -35,14 +34,13 @@ public class AppointmentController {
         return "appointment_list";
     }
 
-    // ✅ Add or update appointment
     @PostMapping("/add")
     public String saveAppointment(@ModelAttribute("appointment") Appointment appointment) {
         appointmentRepository.save(appointment);
         return "redirect:/appointments";
     }
 
-    // ✅ Edit appointment
+    
     @GetMapping("/edit/{id}")
     public String editAppointment(@PathVariable Long id, Model model) {
         Appointment appointment = appointmentRepository.findById(id)
@@ -54,7 +52,7 @@ public class AppointmentController {
         return "appointment_list";
     }
 
-    // ✅ Delete appointment
+
     @GetMapping("/delete/{id}")
     public String deleteAppointment(@PathVariable Long id) {
         appointmentRepository.deleteById(id);

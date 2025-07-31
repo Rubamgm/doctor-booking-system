@@ -8,14 +8,11 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private int age;
-     private String phone;
+    private String phone;
 
-
-    // ✅ Getters and Setters
-
+    //Getters and Setters
     public Long getId() {
         return id;
     }
@@ -24,7 +21,7 @@ public class Patient {
         this.id = id;
     }
 
-    public String getName() {   // ← this ensures the name is accessible
+    public String getName() { 
         return name;
     }
 
@@ -40,6 +37,6 @@ public class Patient {
         this.age = age;
     }
 
-     public String getPhone() { return phone; }
+    public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
 }

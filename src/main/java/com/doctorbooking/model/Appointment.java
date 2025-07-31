@@ -19,7 +19,7 @@ public class Appointment {
 
     private String date;
 
-    private String time; // ✅ Added missing time field
+    private String time; 
 
     // Getters and Setters
     public Long getId() {
